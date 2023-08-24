@@ -8,13 +8,15 @@ Using deep learning was the optimal choice due to the complexity of the problem.
 ![pokemon illustration](https://github.com/GoldFishGod/Pokemon-Type-Classifier/assets/113151722/3ef43f51-c5a1-4e9e-9ce3-a97dba0cf3ec)
 
 # Data Processing
-Pokemon images from eight generations were from three different online databases: [https://www.kaggle.com/datasets/vishalsubbiah/Pokemon-images-and-types], [https://www.kaggle.com/datasets/hlrhegemony/Pokemon-image-dataset] and [https://github.com/jackw-ai/CNN-Pokemon-Classifier]. 
+Pokemon images from eight generations were from three different online databases: 
+[https://www.kaggle.com/datasets/vishalsubbiah/Pokemon-images-and-types], [https://www.kaggle.com/datasets/hlrhegemony/Pokemon-image-dataset] and [https://github.com/jackw-ai/CNN-Pokemon-Classifier]. 
  9885 images were organized into the proper classes from these three sources and were then split into train, validation and test datasets in a ratio of 70%-15%-15% respectively. This was done once for primary types and once for secondary types. Since around half of all existing Pokemon do not have a secondary type, they were categorized into the ‘None’ folder. 
  These images were then resized to 120x120 pixels and converted to 3-channels for RGB, ignoring any alpha channels. In addition, to reduce the chances for overfitting, data augmentation, including flipping, cropping, colour jitter, and rotations were implemented. We also extended our dataset by using AlexNet for feature extraction. The images were resized to 3x224x224 and extracted features to produce the same amount of 256x6x6 sized tensors.
  ![pokemon data augmentation](https://github.com/GoldFishGod/Pokemon-Type-Classifier/assets/113151722/572dc203-31e2-4174-b05b-b9309f215db2)
 
 # Model
 ![pokemon model](https://github.com/GoldFishGod/Pokemon-Type-Classifier/assets/113151722/6a19e47f-603c-451c-8dac-49433426225e)
+
 First, AlexNet is used to extract features from our training, testing and validation data. Next, the training tensors derived from those features are fed into our CNN model with two convolutional layers for hierarchical representation, followed by two fully connected layers used for classifying Pokemon into their respective types. 
 
 Both convolutional layers have a kernel size of 4, a stride of 1, and padding of 1. The first convolutional layer takes 256 input channels and produces 380 output channels, while the second convolutional layer takes 380 input channels and generates 512 output channels. Next, the first fully connected layer maps the 512x4x4 input features to 1024 output features. Finally, the second fully connected layer uses these 1024 features to classify the input picture into one of 18 or 19 classes, depending on whether it is categorizing primary or secondary types, respectively. Notably, secondary Pokemon types have an extra class, as Pokemon without a secondary type are organized into the 'None' category.
